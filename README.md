@@ -21,5 +21,6 @@ There are 5 message `types`:
 5. Query whether finished
 6. Not finished response
 7. Finished response
-8. Fetch result
+8. Fetch result request
+9. Result
 
