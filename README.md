@@ -4,7 +4,7 @@ Server-wrapper
 Protocol
 --------
 
-A message is structured as follows
+A message is structured as follows.
 
      _______________________________________________________
     |       |             |      |                |         |
