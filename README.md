@@ -25,7 +25,8 @@ These are the messages:
 
 | type | description           | direction |
 |------|-----------------------|-----------|
-| 00   | Invalid request       | s -> c    |
+| 08   | OK                    | s -> c    |
+| 09   | Invalid request       | s -> c    |
 | 10   | Regular parameter     | c -> s    |
 | 20   | Input file parameter  | c -> s    |
 | 30   | Output file parameter | c -> s    |
