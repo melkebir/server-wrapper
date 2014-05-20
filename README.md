@@ -33,7 +33,7 @@ These are the messages:
 | 39   | Output file name      | s -> c    |
 | 40   | Run request           | c -> s    |
 | 50   | Finished request      | c -> s    |
-| 59   | Not finished response | s -> c    |
 | 58   | Finished response     | s -> c    |
+| 59   | Not finished response | s -> c    |
 | 60   | Get output            | c -> s    |
 | 69   | Output                | s -> c    |
