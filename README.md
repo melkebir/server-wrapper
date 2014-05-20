@@ -6,19 +6,19 @@ Protocol
 
 A client-to-server message is structured as follows.
 
-     _______________________________________________________
-    |       |             |      |                |         |
-    | type  | name_length | name | payload_length | payload |
-    | (int) | (int)       |      | (int)          |         |
-    |_______|_____________|______|________________|_________|
+     __________________________________________________________
+    |          |             |      |                |         |
+    | type     | name_length | name | payload_length | payload |
+    | (1 byte) | (4 bytes)   |      | (4 bytes)      |         |
+    |__________|_____________|______|________________|_________|
 
 A server-to-client message is structured as follows.
 
-     __________________________________
-    |       |                |         |
-    | type  | payload_length | payload |
-    | (int) | (int)          |         |
-    |_______|________________|_________|
+     _____________________________________
+    |          |                |         |
+    | type     | payload_length | payload |
+    | (1 byte) | (4 bytes)      |         |
+    |__________|________________|_________|
 
 
 These are the messages:
