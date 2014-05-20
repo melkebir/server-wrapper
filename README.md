@@ -4,7 +4,7 @@ Server-wrapper
 Protocol
 --------
 
-A message is structured as follows.
+A client-to-server message is structured as follows.
 
      _______________________________________________________
     |       |             |      |                |         |
@@ -12,15 +12,26 @@ A message is structured as follows.
     | (int) | (int)       |      | (int)          |         |
     |_______|_____________|______|________________|_________|
 
-There are 5 message `types`:
+A server-to-client message is structured as follows.
 
-1. Regular parameter
-2. Input file parameter
-3. Output file parameter
-4. Run
-5. Query whether finished
-6. Not finished response
-7. Finished response
-8. Fetch result request
-9. Result
+     __________________________________
+    |       |                |         |
+    | type  | payload_length | payload |
+    | (int) | (int)          |         |
+    |_______|________________|_________|
 
+
+These are the messages:
+
+| type | description           | direction |
+|------|-----------------------|-----------|
+| 10   | Regular parameter     | c -> s    |
+| 20   | Input file parameter  | c -> s    |
+| 30   | Output file parameter | c -> s    |
+| 39   | Output file name      | s -> c    |
+| 40   | Run request           | c -> s    |
+| 50   | Finished request      | c -> s    |
+| 59   | Not finished response | s -> c    |
+| 58   | Finished response     | s -> c    |
+| 60   | Get output            | c -> s    |
+| 69   | Output                | s -> c    |
