@@ -2,15 +2,26 @@
 import multiprocessing
 import socket
 from messages import ClientMessage
+import messages
+
+def handleRegularParameter(m, parameters):
+    assert m.message_type == messages.CLIENT_MESSAGE_REGULAR_PARAMETER
+    parameters += [str(m.name), str(m.payload)]
  
 def handle(connection, address):
     import logging
     logging.basicConfig(level=logging.DEBUG)
     logger = logging.getLogger("process-%r" % (address,))
+    parameters = []
+    
     try:
         logger.debug("Connected %r at %r", connection, address)
+
         while True:
 	    m = ClientMessage.receive(connection)
+	    if m.message_type == messages.CLIENT_MESSAGE_REGULAR_PARAMETER:
+	        handleRegularParameter(m, parameters)
+
             logger.debug("Received message %d %s %s", m.message_type, m.name, m.payload)
     except IOError:
         logger.debug("Connection dropped")
@@ -18,6 +29,7 @@ def handle(connection, address):
         logger.exception("Problem handling request")
     finally:
         logger.debug("Closing socket")
+	logger.debug(" ".join(parameters))
         connection.close()
  
 class Server(object):
