@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import multiprocessing
 import socket
+from messages import ClientMessage
  
 def handle(connection, address):
     import logging
@@ -9,13 +10,10 @@ def handle(connection, address):
     try:
         logger.debug("Connected %r at %r", connection, address)
         while True:
-            data = connection.recv(1024)
-            if data == "":
-                logger.debug("Socket closed remotely")
-                break
-            logger.debug("Received data %r", data)
-            connection.sendall(data)
-            logger.debug("Sent data")
+	    m = ClientMessage.receive(connection)
+            logger.debug("Received message %d %s %s", m.message_type, m.name, m.payload)
+    except IOError:
+        logger.debug("Connection dropped")
     except:
         logger.exception("Problem handling request")
     finally:
