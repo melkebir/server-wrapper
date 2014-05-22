@@ -31,10 +31,29 @@ These are the messages:
 | 10   | Regular parameter     | c -> s    |
 | 20   | Input file parameter  | c -> s    |
 | 30   | Output file parameter | c -> s    |
-| 39   | Output file name      | s -> c    |
 | 40   | Run request           | c -> s    |
-| 50   | Finished request      | c -> s    |
-| 58   | Finished response     | s -> c    |
-| 59   | Not finished response | s -> c    |
-| 60   | Get output            | c -> s    |
-| 69   | Output                | s -> c    |
+| 50   | Get output            | c -> s    |
+| 59   | Output                | s -> c    |
+
+Use-case scenario
+=================
+
+Preliminaries
+-------------
+
+1. Start server on port `9001` only allowing for `1` concurrent run request that writes input and output files in `/tmp` and executes the command `/ufs/elkebir/src/heinz/build/heinz`
+
+2. Start client that connects to `localhost` via port `9001`
+
+
+
+    ./server.py 9001 1 /tmp /ufs/elkebir/src/heinz/build/heinz
+    ./testclient localhost 9001
+    
+    
+Client-server communication
+---------------------------
+    
+1. Do a ping:
+
+
