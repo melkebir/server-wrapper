@@ -25,6 +25,7 @@ These are the messages:
 
 | type | description           | direction |
 |------|-----------------------|-----------|
+| 00   | Alive?                | c -> s    |
 | 08   | ACK                   | s -> c    |
 | 09   | NACK                  | s -> c    |
 | 10   | Regular parameter     | c -> s    |
