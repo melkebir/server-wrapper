@@ -125,7 +125,7 @@ Client-server session
        
 10.  Obtain second output file (numbered `1`)
 
-       > 50 1
-       9
+        > 50 1
+        9
 
   Since we did not specify a second output file parameter, the server responds with `NACK (9)`.
