@@ -109,28 +109,28 @@ Client-server session
 
   The server responds with message `59` containing `stderr`.
        
-8. Obtain stdout.
+9. Obtain stdout.
 
         > 50 254
         59 ...
 
   The server responds with message `59` containing `stdout`.
   
-9. Obtain first output file (numbered `0`)
+10. Obtain first output file (numbered `0`)
 
         > 50 0
         59 ...
 
   The server responds with message `59` containing the output.
        
-10.  Obtain second output file (numbered `1`)
+11.  Obtain second output file (numbered `1`)
 
         > 50 1
         9
 
   Since we did not specify a second output file parameter, the server responds with `NACK (9)`.
   
-11, Close the connection.
+12. Close the connection.
 
         > x
         
