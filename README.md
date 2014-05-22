@@ -129,3 +129,9 @@ Client-server session
         9
 
   Since we did not specify a second output file parameter, the server responds with `NACK (9)`.
+  
+11, Close the connection.
+
+        > x
+        
+  The server will remove all generated files.
