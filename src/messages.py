@@ -70,7 +70,7 @@ class ClientMessage(object):
 
         message_type = cls.receive_bytes(connection, 1)[0]
 
-        name_length = struct.unpack("!i", cls.receive_bytes(connection, 4))[0]
+        name_length = struct.unpack("!i", connection.recv(4))[0]
         if name_length == 0:
             name = bytearray()
         else:
