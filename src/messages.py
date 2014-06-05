@@ -68,22 +68,16 @@ class ClientMessage(object):
     def receive(cls, connection):
         import struct
 
-        message_type = cls.receive_bytes(connection, 1)[0]
+        message_type_bytes = bytearray(connection.recv(1))
+        assert len(message_type_bytes) == 1
+        message_type = message_type_bytes[0]
 
         name_length = struct.unpack("!i", connection.recv(4))[0]
-        if name_length == 0:
-            name = bytearray()
-        else:
-            name = cls.receive_bytes(connection, name_length)
-
+        name = bytearray(connection.recv(name_length))
         assert len(name) == name_length
 
         payload_length = struct.unpack("!i", connection.recv(4))[0]
-        if payload_length == 0:
-            payload = bytearray()
-        else:
-            payload = cls.receive_bytes(connection, payload_length)
-
+        payload = bytearray(connection.recv(payload_length))
         assert len(payload) == payload_length
 
         return cls(message_type, name_length, name, payload_length, payload)
