@@ -19,11 +19,13 @@ class ServerMessage(object):
 
     @classmethod
     def receive_bytes(cls, connection, size):
-        b = bytearray(connection.recv(size))
-        if b:
-            return b
+        if size == 0:
+            b = bytearray()
         else:
+            b = bytearray(connection.recv(size))
+        if len(b) != size:
             raise IOError("Connection dropped")
+        return b
 
     @classmethod
     def receive(cls, connection):
@@ -31,13 +33,10 @@ class ServerMessage(object):
 
         message_type = cls.receive_bytes(connection, 1)[0]
 
-        payload_length = struct.unpack("!i", connection.recv(4))[0]
-        if payload_length == 0:
-            payload = bytearray()
-        else:
-            payload = cls.receive_bytes(connection, payload_length)
-
-        assert len(payload) == payload_length
+        payload_length_bytes = cls.receive_bytes(connection, 4)
+        # unpack the network-byte-order bytes into an int
+        payload_length = struct.unpack("!i", str(payload_length_bytes))[0]
+        payload = cls.receive_bytes(connection, payload_length)
 
         return cls(message_type, payload_length, payload)
 
@@ -58,27 +57,29 @@ class ClientMessage(object):
 
     @classmethod
     def receive_bytes(cls, connection, size):
-        b = bytearray(connection.recv(size))
-        if b:
-            return b
+        if size == 0:
+            b = bytearray()
         else:
+            b = bytearray(connection.recv(size))
+        if len(b) != size:
             raise IOError("Connection dropped")
+        return b
 
     @classmethod
     def receive(cls, connection):
         import struct
 
-        message_type_bytes = bytearray(connection.recv(1))
-        assert len(message_type_bytes) == 1
-        message_type = message_type_bytes[0]
+        message_type = cls.receive_bytes(connection, 1)[0]
 
-        name_length = struct.unpack("!i", connection.recv(4))[0]
-        name = bytearray(connection.recv(name_length))
-        assert len(name) == name_length
+        name_length_bytes = cls.receive_bytes(connection, 4)
+        # unpack the network-byte-order bytes into an int
+        name_length = struct.unpack("!i", str(name_length_bytes))[0]
+        name = cls.receive_bytes(connection, name_length)
 
-        payload_length = struct.unpack("!i", connection.recv(4))[0]
-        payload = bytearray(connection.recv(payload_length))
-        assert len(payload) == payload_length
+        payload_length_bytes = cls.receive_bytes(connection, 4)
+        # unpack the network-byte-order bytes into an int
+        payload_length = struct.unpack("!i", str(payload_length_bytes))[0]
+        payload = cls.receive_bytes(connection, payload_length)
 
         return cls(message_type, name_length, name, payload_length, payload)
 
