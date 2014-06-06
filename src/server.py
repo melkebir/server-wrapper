@@ -53,17 +53,11 @@ def handle(S, executable, tmp_dir, connection, address):
                     handleRegularParameter(m, parameters)
                     ServerMessage(messages.SERVER_MESSAGE_ACK).send(connection)
             elif m.message_type == messages.CLIENT_MESSAGE_INPUT_FILE_PARAMETER:
-                if m.name_length == 0:
-                    ServerMessage(messages.SERVER_MESSAGE_NACK).send(connection)
-                else:
-                    handleInputFileParameter(m, address, tmp_dir, inputFileParameters)
-                    ServerMessage(messages.SERVER_MESSAGE_ACK).send(connection)
+                handleInputFileParameter(m, address, tmp_dir, inputFileParameters)
+                ServerMessage(messages.SERVER_MESSAGE_ACK).send(connection)
             elif m.message_type == messages.CLIENT_MESSAGE_OUTPUT_FILE_PARAMETER:
-                if m.name_length == 0:
-                    ServerMessage(messages.SERVER_MESSAGE_NACK).send(connection)
-                else:
-                    handleOutputFileParameter(m, address, tmp_dir, outputFileParameters)
-                    ServerMessage(messages.SERVER_MESSAGE_ACK).send(connection)
+                handleOutputFileParameter(m, address, tmp_dir, outputFileParameters)
+                ServerMessage(messages.SERVER_MESSAGE_ACK).send(connection)
             elif m.message_type == messages.CLIENT_MESSAGE_RUN:
                 S.acquire()
                 logger.debug("Executing %s", executable)
