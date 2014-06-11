@@ -25,7 +25,7 @@ class ServerMessage(object):
         if size > 0:
             # while the expected number of bytes has not yet been read
             while len(b) < size:
-                new_bytes = bytearray(connection.recv(size))
+                new_bytes = bytearray(connection.recv(size - len(b)))
                 # if the stream has ended and no more bytes come out
                 if len(new_bytes) == 0:
                     raise IOError("Connection dropped")
