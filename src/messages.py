@@ -19,12 +19,17 @@ class ServerMessage(object):
 
     @classmethod
     def receive_bytes(cls, connection, size):
-        if size == 0:
-            b = bytearray()
-        else:
-            b = bytearray(connection.recv(size))
-        if len(b) != size:
-            raise IOError("Connection dropped")
+        # start with an empty bytearray
+        b = bytearray()
+        # if a positive number of bytes is actually expected
+        if size > 0:
+            # while the expected number of bytes has not yet been read
+            while len(b) < size:
+                new_bytes = bytearray(connection.recv(size))
+                # if the stream has ended and no more bytes come out
+                if len(new_bytes) == 0:
+                    raise IOError("Connection dropped")
+                b.extend(new_bytes)
         return b
 
     @classmethod
@@ -57,12 +62,17 @@ class ClientMessage(object):
 
     @classmethod
     def receive_bytes(cls, connection, size):
-        if size == 0:
-            b = bytearray()
-        else:
-            b = bytearray(connection.recv(size))
-        if len(b) != size:
-            raise IOError("Connection dropped")
+        # start with an empty bytearray
+        b = bytearray()
+        # if a positive number of bytes is actually expected
+        if size > 0:
+            # while the expected number of bytes has not yet been read
+            while len(b) < size:
+                new_bytes = bytearray(connection.recv(size))
+                # if the stream has ended and no more bytes come out
+                if len(new_bytes) == 0:
+                    raise IOError("Connection dropped")
+                b.extend(new_bytes)
         return b
 
     @classmethod
