@@ -41,9 +41,9 @@ Use-case scenario
 Preliminaries
 -------------
 
-* Start server on port `9001` only allowing for `1` concurrent run request that writes input and output files in `/tmp` and executes the command `/ufs/elkebir/src/heinz/build/heinz`.
+* Start server on port `9001` only allowing for `1` concurrent run request that executes the command `/ufs/elkebir/src/heinz/build/heinz`.
 
-        ./server.py 9001 1 /tmp /ufs/elkebir/src/heinz/build/heinz
+        ./server.py 9001 1 /ufs/elkebir/src/heinz/build/heinz
 
 * Start client that connects to `localhost` via port `9001`.
 
