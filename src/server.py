@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import multiprocessing
 import socket
+import tempfile
 from messages import ClientMessage
 from messages import ServerMessage
 import messages
@@ -139,29 +140,30 @@ class Server(object):
 
 def usage(out):
     import sys
-    sys.stderr.write("Usage: " + sys.argv[0] + " <PORT_NUMBER> <QUEUE_SIZE> <TMP_DIR> <EXECUTABLE>\n")
+    sys.stderr.write("Usage: " + sys.argv[0] + " <PORT_NUMBER> <QUEUE_SIZE> <EXECUTABLE>\n")
  
 if __name__ == "__main__":
     import logging
     import sys
 
-    if (len(sys.argv) != 5):
+    if (len(sys.argv) != 4):
         usage(sys.stderr)
         sys.exit(1)
     else:
         try:
             port_number = int(sys.argv[1])
             queue_size = int(sys.argv[2])
-            tmp_dir = sys.argv[3]
-            executable = sys.argv[4]
+            executable = sys.argv[3]
         except ValueError as e:
             print "ValueError error: {0}".format(e)
             usage(sys.stderr)
             sys.exit(1)
 
     logging.basicConfig(level=logging.DEBUG)
-    server = Server("0.0.0.0", port_number, queue_size, executable, tmp_dir)
+    tmp_dir = tempfile.mkdtemp(prefix="server_wrapper_")
+    logging.debug("Created temporary directory {}".format(tmp_dir))
     try:
+        server = Server("0.0.0.0", port_number, queue_size, executable, tmp_dir)
         logging.info("Listening")
         server.start()
     except:
@@ -172,4 +174,6 @@ if __name__ == "__main__":
             logging.info("Shutting down process %r", process)
             process.terminate()
             process.join()
+        logging.debug("Removing temporary directory {}".format(tmp_dir))
+        os.rmdir(tmp_dir)
     logging.info("All done")
